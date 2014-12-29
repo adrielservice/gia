@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.adrielservice.gia.callrecorder"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="4" />
+
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <provider
+            android:name=".services.RecordingProvider"
+            android:authorities="com.adrielservice.gia.callrecorder" />
+
+        <receiver
+            android:name=".filters.CallBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.adrielservice.gia.callrecorder.filters.OutgoingCallInterceptor">
+            <intent-filter android:priority="1">
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.adrielservice.gia.callrecorder.CallRecorder"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.adrielservice.gia.callrecorder.CallLog"
+            android:label="CallLog" >
+        </activity>
+        <activity
+            android:name="com.adrielservice.gia.callrecorder.CallPlayer"
+            android:label="CallPlayer" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.adrielservice.gia.callrecorder.Preferences" >
+            <intent-filter>
+                <action android:name="com.adrielservice.gia.callrecorder.ACTION_USER_PREFERENCE" />
+            </intent-filter>
+        </activity>
+
+        <service android:name=".services.RecordService" >
+        </service>
+        <service android:name=".services.PlayService" >
+        </service>
+    </application>
+
+</manifest>
