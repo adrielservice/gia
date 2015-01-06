@@ -1,8 +1,8 @@
 package com.adrielservice.gia.callrecorder.ui;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.adrielservice.gia.callrecorder.R;
-
-import com.adrielservice.gia.callrecorder.ui.dummy.DummyContent;
+import com.adrielservice.gia.callrecorder.ui.adapters.CallContent;
 
 /**
  * A fragment representing a list of Items.
@@ -76,8 +75,8 @@ public class CallListFragment extends Fragment implements AbsListView.OnItemClic
         }
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+        mAdapter = new ArrayAdapter<CallContent.Call>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, CallContent.ITEMS);
     }
 
     @Override
@@ -118,7 +117,7 @@ public class CallListFragment extends Fragment implements AbsListView.OnItemClic
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            mListener.onFragmentInteraction(CallContent.ITEMS.get(position).id);
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blackBorder">#000</color>
-    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimary">#0000BB</color>
     <color name="colorPrimaryDark">#cc0000</color>
     <color name="colorAccent">#00ccff</color>
     <color name="darkText">#dd000000</color>
