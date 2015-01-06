@@ -1,8 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="Header" parent="AppTheme">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/lightSub</item>
+    </style>
     <style name="Section" parent="AppTheme">
         <item name="android:textColor">@color/darkSub</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Label" parent="AppTheme">
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/darkText</item>
+    </style>
+    <style name="LabelValue" parent="AppTheme">
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/darkSub</item>
+    </style>
+
+    <style name="CardBase" parent="AppTheme">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+    </style>
+    <style name="CardTop" parent="CardBase">
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+    <style name="CardMiddle" parent="CardBase">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+    <style name="CardBottom" parent="CardBase">
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+    <style name="CodeBase" parent="AppTheme">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/darkText</item>
+    </style>
+    <style name="Code" parent="CodeBase"/>
+
+    <style name="Timestamp" parent="AppTheme">
+        <item name="android:gravity">end|right</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/darkSub</item>
     </style>
 </resources>

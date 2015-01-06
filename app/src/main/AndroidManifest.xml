@@ -13,6 +13,7 @@
 
     <application
         android:icon="@drawable/icon"
+        android:theme="@style/AppTheme"
         android:label="@string/app_name" >
         <provider
             android:name=".services.RecordingProvider"
@@ -28,28 +29,18 @@
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </receiver>
-
-        <receiver android:name="com.adrielservice.gia.callrecorder.filters.OutgoingCallInterceptor">
-            <intent-filter android:priority="1">
+        <receiver android:name=".filters.OutgoingCallInterceptor" >
+            <intent-filter android:priority="1" >
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.adrielservice.gia.callrecorder.CallRecorder"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.adrielservice.gia.callrecorder.CallLog"
+            android:name=".CallLog"
             android:label="CallLog" >
         </activity>
         <activity
-            android:name="com.adrielservice.gia.callrecorder.CallPlayer"
+            android:name=".CallPlayer"
             android:label="CallPlayer" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -57,16 +48,21 @@
                 <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
-        <activity android:name="com.adrielservice.gia.callrecorder.Preferences" >
-            <intent-filter>
-                <action android:name="com.adrielservice.gia.callrecorder.ACTION_USER_PREFERENCE" />
-            </intent-filter>
-        </activity>
 
         <service android:name=".services.RecordService" >
         </service>
         <service android:name=".services.PlayService" >
         </service>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -15,7 +15,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.adrielservice.gia.callrecorder.Preferences;
 import com.adrielservice.gia.callrecorder.R;
 
 import java.io.File;
@@ -26,6 +25,11 @@ import java.util.Date;
 public class RecordService extends Service implements MediaRecorder.OnInfoListener, MediaRecorder.OnErrorListener {
 
 	private static final String TAG = "CallRecorder";
+
+    private static final String PREF_RECORD_CALLS = "PREF_RECORD_CALLS";
+    private static final String PREF_AUDIO_SOURCE = "PREF_AUDIO_SOURCE";
+    private static final String PREF_AUDIO_FORMAT = "PREF_AUDIO_FORMAT";
+
 	public static final String DEFAULT_STORAGE_LOCATION = Environment.getExternalStorageDirectory().getPath() + "/gia/callrecorder";
 	private static final int RECORDING_NOTIFICATION_ID = 1;
 
@@ -73,12 +77,12 @@ public class RecordService extends Service implements MediaRecorder.OnInfoListen
         prefix += sdf.format(new Date()) + "-rec";
 
 		// add info to file name about what audio channel we were recording
-		int audioSource = Integer.parseInt(prefs.getString(Preferences.PREF_AUDIO_SOURCE, "1"));
+		int audioSource = Integer.parseInt(prefs.getString(PREF_AUDIO_SOURCE, "1"));
 		prefix += "-channel" + audioSource + "-";
 
 		// create suffix based on format
 		String suffix = "";
-		int audioFormat = Integer.parseInt(prefs.getString(Preferences.PREF_AUDIO_FORMAT, "1"));
+		int audioFormat = Integer.parseInt(prefs.getString(PREF_AUDIO_FORMAT, "1"));
 		switch (audioFormat) {
 		case MediaRecorder.OutputFormat.THREE_GPP:
 			suffix = ".3gpp";
@@ -120,15 +124,15 @@ public class RecordService extends Service implements MediaRecorder.OnInfoListen
 		Context c = getApplicationContext();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
 
-		Boolean shouldRecord = prefs.getBoolean(Preferences.PREF_RECORD_CALLS, false);
+		Boolean shouldRecord = prefs.getBoolean(PREF_RECORD_CALLS, false);
 		if (!shouldRecord) {
 			Log.i("CallRecord", "RecordService::onStartCommand with PREF_RECORD_CALLS false, not recording");
 			// return START_STICKY;
 			return;
 		}
 
-		int audioSource = Integer.parseInt(prefs.getString(Preferences.PREF_AUDIO_SOURCE, "1"));
-		int audioFormat = Integer.parseInt(prefs.getString(Preferences.PREF_AUDIO_FORMAT, "1"));
+		int audioSource = Integer.parseInt(prefs.getString(PREF_AUDIO_SOURCE, "1"));
+		int audioFormat = Integer.parseInt(prefs.getString(PREF_AUDIO_FORMAT, "1"));
 
 		recording = makeOutputFile(phoneNumber, prefs);
 		if (recording == null) {
