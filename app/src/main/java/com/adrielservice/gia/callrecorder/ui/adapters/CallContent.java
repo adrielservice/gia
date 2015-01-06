@@ -27,7 +27,7 @@ public class CallContent {
         loadRecordingsFromDir();
     }
 
-    private static void loadRecordingsFromDir() {
+    public static void loadRecordingsFromDir() {
         ITEMS.clear();
         ITEM_MAP.clear();
         File dir = new File(RecordService.DEFAULT_STORAGE_LOCATION);

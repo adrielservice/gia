@@ -36,10 +36,6 @@
         </receiver>
 
         <activity
-            android:name=".CallLog"
-            android:label="CallLog" >
-        </activity>
-        <activity
             android:name=".CallPlayer"
             android:label="CallPlayer" >
             <intent-filter>

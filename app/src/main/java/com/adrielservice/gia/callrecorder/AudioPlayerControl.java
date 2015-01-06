@@ -60,36 +60,51 @@ class AudioPlayerControl implements MediaController.MediaPlayerControl {
 	}
 
 	public int getCurrentPosition() {
-		int pos = player.getCurrentPosition();
+		int pos = 0;
+        if (player != null) {
+            pos = player.getCurrentPosition();
+        }
 		Log.d(TAG, "AudioPlayerControl::getCurrentPosition returning " + pos);
 		return pos;
 	}
 
 	public int getDuration() {
-		int duration = player.getDuration();
+		int duration = 0;
+        if (player != null) {
+            duration = player.getDuration();
+        }
 		Log.d(TAG, "AudioPlayerControl::getDuration returning " + duration);
 		return duration;
 	}
 
 	public boolean isPlaying() {
-		boolean isp = player.isPlaying();
+        boolean isp = false;
+        if (player != null) {
+            isp = player.isPlaying();
+        }
 		Log.d(TAG, "AudioPlayerControl::isPlaying returning " + isp);
 		return isp;
 	}
 
 	public void pause() {
 		Log.d(TAG, "AudioPlayerControl::pause");
-		player.pause();
+        if (player != null) {
+            player.pause();
+        }
 	}
 
 	public void seekTo(int pos) {
 		Log.d(TAG, "AudioPlayerControl::seekTo " + pos);
-		player.seekTo(pos);
+        if (player != null) {
+            player.seekTo(pos);
+        }
 	}
 
 	public void start() {
 		Log.d(TAG, "AudioPlayerControl::start");
-		player.start();
+        if (player != null) {
+            player.start();
+        }
 	}
 
 	public void destroy() {

@@ -193,12 +193,14 @@ public class RecordService extends Service implements MediaRecorder.OnInfoListen
     private String getPhoneNumber(Intent intent) {
         String phoneNumber = "Unknown";
 
-        Bundle extras = intent.getExtras();
-        if(extras == null) {
-            Log.d("RecordService", "No phone number is specified");
-        } else {
-            phoneNumber = (String) extras.get("phoneNumber");
-            Log.d("RecordService","Phone Number " + phoneNumber);
+        if (intent != null) {
+            Bundle extras = intent.getExtras();
+            if(extras == null) {
+                Log.d("RecordService", "No phone number is specified");
+            } else {
+                phoneNumber = (String) extras.get("phoneNumber");
+                Log.d("RecordService","Phone Number " + phoneNumber);
+            }
         }
 
         return phoneNumber;

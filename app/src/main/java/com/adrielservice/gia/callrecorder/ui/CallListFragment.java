@@ -3,6 +3,7 @@ package com.adrielservice.gia.callrecorder.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import com.adrielservice.gia.callrecorder.ui.adapters.CallContent;
  * interface.
  */
 public class CallListFragment extends Fragment implements AbsListView.OnItemClickListener {
+
+    private final String TAG = CallListFragment.class.getName();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,6 +95,14 @@ public class CallListFragment extends Fragment implements AbsListView.OnItemClic
         mListView.setOnItemClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.i(TAG, "CallLog onResume about to load recording list again, does this work?");
+        CallContent.loadRecordingsFromDir();
     }
 
     @Override
