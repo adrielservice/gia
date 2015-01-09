@@ -2,7 +2,6 @@ package com.adrielservice.gia.callrecorder.ui;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
 
 import com.adrielservice.gia.callrecorder.R;
 
@@ -17,7 +16,7 @@ import com.adrielservice.gia.callrecorder.R;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.adrielservice.gia.callrecorder.services.RecordService;
 import com.adrielservice.gia.callrecorder.ui.CallListFragment;
 import com.adrielservice.gia.callrecorder.ui.MediaPlayerActivity;
-import com.adrielservice.gia.callrecorder.ui.SettingsFragment;
+import com.adrielservice.gia.callrecorder.ui.SettingsActivity;
 import com.adrielservice.gia.callrecorder.ui.adapters.CallContent;
 
 
@@ -109,9 +109,8 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_settings) {
             Toast.makeText(this, "Settings action.", Toast.LENGTH_SHORT).show();
             // Display the fragment as the main content.
-            getFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, new SettingsFragment())
-                    .commit();
+            Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(settingsIntent);
             return true;
         }
 
