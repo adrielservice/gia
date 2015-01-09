@@ -27,13 +27,11 @@ import com.adrielservice.gia.callrecorder.ui.adapters.CallContent;
  */
 public class CallListFragment extends Fragment implements AbsListView.OnItemClickListener {
 
-    private final String TAG = CallListFragment.class.getName();
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private final String TAG = CallListFragment.class.getName();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -51,6 +49,13 @@ public class CallListFragment extends Fragment implements AbsListView.OnItemClic
      */
     private ListAdapter mAdapter;
 
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+    public CallListFragment() {
+    }
+
     // TODO: Rename and change types of parameters
     public static CallListFragment newInstance(String param1, String param2) {
         CallListFragment fragment = new CallListFragment();
@@ -59,13 +64,6 @@ public class CallListFragment extends Fragment implements AbsListView.OnItemClic
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public CallListFragment() {
     }
 
     @Override
@@ -83,8 +81,7 @@ public class CallListFragment extends Fragment implements AbsListView.OnItemClic
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_call, container, false);
 
         // Set the adapter

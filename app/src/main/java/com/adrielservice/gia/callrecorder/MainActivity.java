@@ -2,7 +2,6 @@ package com.adrielservice.gia.callrecorder;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,10 +18,9 @@ import android.widget.Toast;
 
 import com.adrielservice.gia.callrecorder.services.RecordService;
 import com.adrielservice.gia.callrecorder.ui.CallListFragment;
+import com.adrielservice.gia.callrecorder.ui.MediaPlayerActivity;
 import com.adrielservice.gia.callrecorder.ui.SettingsFragment;
 import com.adrielservice.gia.callrecorder.ui.adapters.CallContent;
-
-import java.io.File;
 
 
 public class MainActivity extends ActionBarActivity
@@ -132,11 +130,11 @@ public class MainActivity extends ActionBarActivity
 
         String callFilename = call.content;
         Log.w(TAG, "CallLog just got an item clicked: " + callFilename);
-        File f = new File(RecordService.DEFAULT_STORAGE_LOCATION + "/" + callFilename);
 
-        Intent playIntent = new Intent(getApplicationContext(), CallPlayer.class);
-        Uri uri = Uri.fromFile(f);
-        playIntent.setData(uri);
+        Intent playIntent = new Intent(getApplicationContext(), MediaPlayerActivity.class);
+        playIntent.putExtra("mediaPath", RecordService.DEFAULT_STORAGE_LOCATION + "/" + callFilename);
+        playIntent.putExtra("mediaTitle", callFilename);
+
         startActivity(playIntent);
 
     }
@@ -151,6 +149,9 @@ public class MainActivity extends ActionBarActivity
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+        public PlaceholderFragment() {
+        }
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -163,12 +164,8 @@ public class MainActivity extends ActionBarActivity
             return fragment;
         }
 
-        public PlaceholderFragment() {
-        }
-
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
@@ -176,8 +173,7 @@ public class MainActivity extends ActionBarActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+            ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
 

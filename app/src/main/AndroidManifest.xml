@@ -20,7 +20,7 @@
             android:authorities="com.adrielservice.gia.callrecorder" />
 
         <receiver
-            android:name=".filters.CallBroadcastReceiver"
+            android:name=".services.CallBroadcastReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -29,26 +29,17 @@
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </receiver>
-        <receiver android:name=".filters.OutgoingCallInterceptor" >
-            <intent-filter android:priority="1" >
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-            </intent-filter>
-        </receiver>
 
         <activity
-            android:name=".CallPlayer"
-            android:label="CallPlayer" >
+            android:name=".ui.MediaPlayerActivity"
+            android:label="Media Player" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
-                <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
 
-        <service android:name=".services.RecordService" >
-        </service>
-        <service android:name=".services.PlayService" >
-        </service>
+        <service android:name=".services.RecordService" />
+        <service android:name=".services.PlayService" />
 
         <activity
             android:name=".MainActivity"

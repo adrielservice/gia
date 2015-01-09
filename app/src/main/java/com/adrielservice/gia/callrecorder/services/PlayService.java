@@ -17,97 +17,95 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class PlayService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnInfoListener,
-		MediaPlayer.OnErrorListener {
-	private static String TAG = "CallRecorder";
+        MediaPlayer.OnErrorListener {
+    public static final String EXTRA_FILENAME = "filename";
 
-	// public static final String DEFAULT_STORAGE_LOCATION =
-	// "/sdcard/callrecorder";
-	// private static final int RECORDING_NOTIFICATION_ID = 1;
+    // public static final String DEFAULT_STORAGE_LOCATION =
+    // "/sdcard/callrecorder";
+    // private static final int RECORDING_NOTIFICATION_ID = 1;
+    private static String TAG = "CallRecorder";
+    private MediaPlayer player = null;
+    private boolean isPlaying = false;
+    private String recording = null;
 
-	public static final String EXTRA_FILENAME = "filename";
+    public void onCreate() {
+        super.onCreate();
+        player = new MediaPlayer();
+        player.setOnCompletionListener(this);
+        player.setOnInfoListener(this);
+        player.setOnErrorListener(this);
+        Log.i(TAG, "PlayService::onCreate created MediaPlayer object");
+    }
 
-	private MediaPlayer player = null;
-	private boolean isPlaying = false;
-	private String recording = null;
+    public void onStart(Intent intent, int startId) {
+        Log.i(TAG, "PlayService::onStart called while isPlaying:" + isPlaying);
 
-	public void onCreate() {
-		super.onCreate();
-		player = new MediaPlayer();
-		player.setOnCompletionListener(this);
-		player.setOnInfoListener(this);
-		player.setOnErrorListener(this);
-		Log.i(TAG, "PlayService::onCreate created MediaPlayer object");
-	}
+        if (isPlaying)
+            return;
 
-	public void onStart(Intent intent, int startId) {
-		Log.i(TAG, "PlayService::onStart called while isPlaying:" + isPlaying);
+        recording = intent.getStringExtra(EXTRA_FILENAME);
 
-		if (isPlaying)
-			return;
+        if (recording == null) {
+            Log.w(TAG, "PlayService::onStart recording == null, returning");
+            return;
+        }
 
-		recording = intent.getStringExtra(EXTRA_FILENAME);
+        Log.i(TAG, "PlayService will play " + recording);
+        try {
+            player.reset();
+            player.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
+            player.setDataSource(recording);
+            player.setLooping(false);
+            player.prepare();
+            Log.d(TAG, "PlayService player.prepare() returned");
+            player.start();
 
-		if (recording == null) {
-			Log.w(TAG, "PlayService::onStart recording == null, returning");
-			return;
-		}
+            isPlaying = true;
+            Log.i(TAG, "player.start() returned");
+            // updateNotification(true);
+        } catch (java.io.IOException e) {
+            Log.e(TAG, "PlayService::onStart() IOException attempting player.prepare()\n");
+            Toast t = Toast.makeText(getApplicationContext(),
+                    "PlayService was unable to start playing recording: " + e, Toast.LENGTH_LONG);
+            t.show();
+            return;
+        } catch (java.lang.Exception e) {
+            Toast t = Toast.makeText(getApplicationContext(), "CallRecorder was unable to start playing recording: "
+                    + e, Toast.LENGTH_LONG);
+            t.show();
 
-		Log.i(TAG, "PlayService will play " + recording);
-		try {
-			player.reset();
-			player.setAudioStreamType(AudioManager.STREAM_VOICE_CALL);
-			player.setDataSource(recording);
-			player.setLooping(false);
-			player.prepare();
-			Log.d(TAG, "PlayService player.prepare() returned");
-			player.start();
+            Log.e(TAG, "PlayService::onStart caught unexpected exception", e);
+        }
 
-			isPlaying = true;
-			Log.i(TAG, "player.start() returned");
-			// updateNotification(true);
-		} catch (java.io.IOException e) {
-			Log.e(TAG, "PlayService::onStart() IOException attempting player.prepare()\n");
-			Toast t = Toast.makeText(getApplicationContext(),
-					"PlayService was unable to start playing recording: " + e, Toast.LENGTH_LONG);
-			t.show();
-			return;
-		} catch (java.lang.Exception e) {
-			Toast t = Toast.makeText(getApplicationContext(), "CallRecorder was unable to start playing recording: "
-					+ e, Toast.LENGTH_LONG);
-			t.show();
+        return;
+    }
 
-			Log.e(TAG, "PlayService::onStart caught unexpected exception", e);
-		}
+    public void onDestroy() {
+        if (null != player) {
+            Log.i(TAG, "PlayService::onDestroy calling player.release()");
+            isPlaying = false;
+            player.release();
+        }
 
-		return;
-	}
+        // updateNotification(false);
+        super.onDestroy();
+    }
 
-	public void onDestroy() {
-		if (null != player) {
-			Log.i(TAG, "PlayService::onDestroy calling player.release()");
-			isPlaying = false;
-			player.release();
-		}
+    // methods to handle binding the service
 
-		// updateNotification(false);
-		super.onDestroy();
-	}
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
-	// methods to handle binding the service
+    public boolean onUnbind(Intent intent) {
+        return false;
+    }
 
-	public IBinder onBind(Intent intent) {
-		return null;
-	}
-
-	public boolean onUnbind(Intent intent) {
-		return false;
-	}
-
-	public void onRebind(Intent intent) {
-	}
+    public void onRebind(Intent intent) {
+    }
 
 	/*
-	 * private void updateNotification(Boolean status) { Context c =
+     * private void updateNotification(Boolean status) { Context c =
 	 * getApplicationContext(); SharedPreferences prefs =
 	 * PreferenceManager.getDefaultSharedPreferences(c);
 	 * 
@@ -133,23 +131,23 @@ public class PlayService extends Service implements MediaPlayer.OnCompletionList
 	 * mNotificationManager.cancel(RECORDING_NOTIFICATION_ID); } }
 	 */
 
-	// MediaPlayer.OnCompletionListener
-	public void onCompletion(MediaPlayer mp) {
-		Log.i(TAG, "PlayService got MediaPlayer onCompletion callback");
-		isPlaying = false;
-	}
+    // MediaPlayer.OnCompletionListener
+    public void onCompletion(MediaPlayer mp) {
+        Log.i(TAG, "PlayService got MediaPlayer onCompletion callback");
+        isPlaying = false;
+    }
 
-	// MediaPlayer.OnInfoListener
-	public boolean onInfo(MediaPlayer mp, int what, int extra) {
-		Log.i(TAG, "PlayService got MediaPlayer onInfo callback with what: " + what + " extra: " + extra);
-		return false;
-	}
+    // MediaPlayer.OnInfoListener
+    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        Log.i(TAG, "PlayService got MediaPlayer onInfo callback with what: " + what + " extra: " + extra);
+        return false;
+    }
 
-	// MediaPlayer.OnErrorListener
-	public boolean onError(MediaPlayer mp, int what, int extra) {
-		Log.e(TAG, "PlayService got MediaPlayer onError callback with what: " + what + " extra: " + extra);
-		isPlaying = false;
-		mp.reset();
-		return true;
-	}
+    // MediaPlayer.OnErrorListener
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        Log.e(TAG, "PlayService got MediaPlayer onError callback with what: " + what + " extra: " + extra);
+        isPlaying = false;
+        mp.reset();
+        return true;
+    }
 }
